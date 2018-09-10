@@ -147,3 +147,9 @@ rm -r $APIFOLDER || exit 1
 
 # echos generated files for FaustWorks
 echo "$ZIPOUT;"
+
+token=`curl -X POST "http://edin-dunbar.spd.analog.com:7225/authenticate?username=admin&password=admin" -H  "accept: text/plain"`
+workspaceInfo=`curl -X POST "http://edin-dunbar.spd.analog.com:7225/sam/init?token=$token" -H  "accept: text/plain"`
+workspaceEncoded=`python -c "import sys, urllib as ul; import json; print ul.quote(json.dumps($workspaceInfo))"`
+`curl -o SAM.zip -X GET "http://edin-dunbar.spd.analog.com:7225/sam/build?workspaceInfo=$workspaceEncoded" -H  "accept: text/plain"`
+mv SAM.zip $ZIPOUT
