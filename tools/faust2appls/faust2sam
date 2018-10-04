@@ -149,6 +149,8 @@ rm -r $APIFOLDER || exit 1
 # echos generated files for FaustWorks
 echo "$ZIPOUT;"
 
+set -x
+
 token=`curl -X POST "http://dte-che.ad.analog.com:7225/authenticate?username=admin&password=admin" -H  "accept: text/plain"`
 workspaceInfo=`curl -X POST "http://dte-che.ad.analog.com:7225/sam/init?token=$token" -H  "accept: text/plain"`
 workspaceEncoded=`python -c "import sys, urllib as ul; import json; print ul.quote(json.dumps($workspaceInfo))"`
